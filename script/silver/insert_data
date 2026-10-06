@@ -2,6 +2,8 @@
 -- Inserting cleaned data into Silver.crm_cust_info
 ---------------------------------------------------------------------------------------------------
 
+TRUNCATE TABLE silver.crm_cust_info;
+
 INSERT INTO silver.crm_cust_info (
 	cst_id,
 	cst_key,
@@ -37,6 +39,8 @@ FROM (
 -- inserting clean data into silver.crm_prd_info
 ---------------------------------------------------------------------------------------------------
 
+TRUNCATE TABLE silver.crm_prd_info;
+
 INSERT INTO silver.crm_prd_info (
 prd_id,
 cat_id,
@@ -68,6 +72,8 @@ FROM bronze.crm_prd_info
 ---------------------------------------------------------------------------------------------------
 -- Inserting clean data into silver.crm_sales_details
 ---------------------------------------------------------------------------------------------------
+
+TRUNCATE TABLE silver.crm_sales_details;
 
 INSERT INTO silver.crm_sales_details (
 sls_ord_num,
@@ -108,6 +114,8 @@ FROM bronze.crm_sales_details
 -- Inserting clean date into silver.erp_cust_az12
 ---------------------------------------------------------------------------------------------------
 
+TRUNCATE TABLE silver.erp_cust_az12;
+
 INSERT INTO silver.erp_cust_az12 (cid, bdate, gen)
 
 SELECT
@@ -127,6 +135,8 @@ FROM bronze.erp_cust_az12
 -- Inserting clean data into silver.erp_loc_a101
 ---------------------------------------------------------------------------------------------------
 
+TRUNCATE TABLE silver.erp_loc_a101;
+
 INSERT INTO silver.erp_loc_a101
 (cid,cntry)
 SELECT
@@ -141,6 +151,8 @@ FROM bronze.erp_loc_a101
 ---------------------------------------------------------------------------------------------------
 -- Inserting clean data into silver.erp_px_cat_g1v2
 ---------------------------------------------------------------------------------------------------
+
+TRUNCATE TABLE silver.erp_px_cat_g1v2;
 
 INSERT INTO silver.erp_px_cat_g1v2
 (id, cat, subcat, maintenance)
