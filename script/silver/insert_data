@@ -1,4 +1,6 @@
+---------------------------------------------------------------------------------------------------
 -- Inserting cleaned data into Silver.crm_cust_info
+---------------------------------------------------------------------------------------------------
 
 INSERT INTO silver.crm_cust_info (
 	cst_id,
@@ -31,7 +33,9 @@ FROM (
 	WHERE cst_id IS NOT NULL
 )t WHERE flag_last = 1
 
+---------------------------------------------------------------------------------------------------
 -- inserting clean data into silver.crm_prd_info
+---------------------------------------------------------------------------------------------------
 
 INSERT INTO silver.crm_prd_info (
 prd_id,
@@ -61,7 +65,9 @@ CAST(prd_start_dt AS DATE) as prd_start_dt,
 CAST(LEAD(prd_start_dt) OVER(PARTITION BY prd_key ORDER BY prd_start_dt)-1 AS DATE) AS prd_end_dt
 FROM bronze.crm_prd_info
 
+---------------------------------------------------------------------------------------------------
 -- Inserting clean data into silver.crm_sales_details
+---------------------------------------------------------------------------------------------------
 
 INSERT INTO silver.crm_sales_details (
 sls_ord_num,
@@ -98,7 +104,9 @@ CASE WHEN sls_price IS NULL OR sls_price <= 0
 END AS sls_price
 FROM bronze.crm_sales_details
 
+---------------------------------------------------------------------------------------------------
 -- Inserting clean date into silver.erp_cust_az12
+---------------------------------------------------------------------------------------------------
 
 INSERT INTO silver.erp_cust_az12 (cid, bdate, gen)
 
@@ -115,3 +123,31 @@ CASE WHEN UPPER(TRIM(gen)) IN ('F', 'FEMALE') THEN 'Female'
 END gen
 FROM bronze.erp_cust_az12
 
+---------------------------------------------------------------------------------------------------
+-- Inserting clean data into silver.erp_loc_a101
+---------------------------------------------------------------------------------------------------
+
+INSERT INTO silver.erp_loc_a101
+(cid,cntry)
+SELECT
+REPLACE(cid, '-', '') cid,
+CASE WHEN UPPER(TRIM(cntry)) IN ('US','UNITEDSTATES','USA') THEN 'United States'
+	 WHEN UPPER(TRIM(cntry)) IN ('DE','GERMANY')  THEN 'Germany'
+	 WHEN UPPER(TRIM(cntry)) = '' OR cntry IS NULL THEN 'N/A'
+	 ELSE cntry
+END cntry
+FROM bronze.erp_loc_a101
+
+---------------------------------------------------------------------------------------------------
+-- Inserting clean data into silver.erp_px_cat_g1v2
+---------------------------------------------------------------------------------------------------
+
+INSERT INTO silver.erp_px_cat_g1v2
+(id, cat, subcat, maintenance)
+
+SELECT
+id,
+cat,
+subcat,
+maintenance
+FROM bronze.erp_px_cat_g1v2
