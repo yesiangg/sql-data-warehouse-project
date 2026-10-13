@@ -1,6 +1,9 @@
 ------------------------------------------------------------------------------------
 -- creating view for gold layer dimension customers
 ------------------------------------------------------------------------------------
+IF OBJECT_ID('gold.dim_customers', 'V') IS NOT NULL
+		DROP VIEW gold.dim_customers;
+GO
 
 CREATE VIEW gold.dim_customers AS
 SELECT 
@@ -25,7 +28,10 @@ ON ci.cst_key = la.cid
 ------------------------------------------------------------------------------------
 -- creating view for gold layer dimension product
 ------------------------------------------------------------------------------------
-
+IF OBJECT_ID('gold.dim_products', 'V') IS NOT NULL
+		DROP VIEW gold.dim_products;
+GO
+	
 CREATE VIEW gold.dim_products AS
 SELECT 
 	ROW_NUMBER() OVER(ORDER BY pn.prd_start_dt,pn.prd_key) AS product_key,
@@ -47,7 +53,10 @@ WHERE prd_end_dt IS NULL -- Filter out all historical data
 ------------------------------------------------------------------------------------
 -- creating view for gold layer fact sales
 ------------------------------------------------------------------------------------
-
+IF OBJECT_ID('gold.fact_sales', 'V') IS NOT NULL
+		DROP VIEW gold.fact_sales;
+GO 
+	
 CREATE VIEW gold.fact_sales AS 
 SELECT 
 	sd.sls_ord_num AS order_number,
